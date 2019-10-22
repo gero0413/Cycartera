@@ -33,21 +33,21 @@
  * @param {String} fileUrl - The file url to upload
  * @param {String} type - content type of the uploaded file
  */
-Cypress.Commands.add('upload_file', (fileName, fileType = ' ', selector) => {
-    return cy.get(selector).then(subject => {
-        cy.fixture(fileName, 'base64').then(Cypress.Blob.base64StringToBlob).then(blob => {
-            const el = subject[0];
-            const testFile = new File([blob], fileName, {
-                type: fileType
-            });
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(testFile);
-            el.files = dataTransfer.files;
-        });
-    });
-});
 
 import 'cypress-file-upload';
+
+Cypress.Commands.add("CargarDocumentos", (selector, cantidad) => {
+    cy.get(selector).each((element, index, list) => {
+        cy.wrap(element).within(form => {
+            const  fileName  =  'Otro.pdf'; 
+            cy.fixture(fileName).then(fileContent  =>  {
+                for (let i = 0; i < cantidad; i++) {    
+                    cy.get('.fileupload').upload({  fileContent,  fileName,  mimeType:   'application/pdf'  });
+                } 
+            });
+        })
+    });
+})
 
 Cypress.Commands.add('entrar', () => {
     cy.visit('http://10.181.3.183:8085/cmpqr_cartera/index.php')
@@ -96,3 +96,26 @@ Cypress.Commands.add("navbar", ($modPrincipal, $modulo) => {
     cy.get('a').contains($modulo)
         .click()
 })
+
+Cypress.Commands.add(
+    'iframeLoaded', { prevSubject: 'element' },
+    ($iframe) => {
+        const contentWindow = $iframe.prop('contentWindow')
+        return new Promise(resolve => {
+            if (
+                contentWindow &&
+                contentWindow.document.readyState === 'complete'
+            ) {
+                resolve(contentWindow)
+            } else {
+                $iframe.on('load', () => {
+                    resolve(contentWindow)
+                })
+            }
+        })
+    })
+
+Cypress.Commands.add(
+    'getInDocument', { prevSubject: 'document' },
+    (document, selector) => Cypress.$(selector, document)
+)

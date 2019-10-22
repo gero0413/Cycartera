@@ -14,12 +14,28 @@ describe("Diligenciar solicitud", function() {
 
     function consultaMalla() {
         cy.wait(3000);
-        cy.then(() => {
-            cy.get("input[name=fecha_inicio]").click()
-                .then(input => {
-                    input.val('06/09/1985')
-                })
-        })
+        // cy.get('object').within(() => {
+        //     cy.then(() => {
+        //         cy.get("input[name=fecha_inicio]").click()
+        //             .then(input => {
+        //                 input.val('06/09/1985')
+        //             })
+        //     })
+        // })
+
+        cy.wait(5000);
+        // cy.get('object').then($element => {
+
+        //     const $body = $element.contents().find('body')
+
+        //     let stripe = cy.wrap($body)
+        //     stripe.find('input[name=fecha_inicio]').eq(0).click()
+        //         // stripe = cy.wrap($body)
+        //         // stripe.find('.Input .InputElement').eq(1).click().type('4242')
+        //         // stripe = cy.wrap($body)
+        //         // stripe.find('.Input .InputElement').eq(2).click().type('424')
+        // })
+
 
     }
 
