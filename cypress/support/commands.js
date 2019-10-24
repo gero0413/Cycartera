@@ -24,30 +24,8 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-/**
- * Uploads a file to an input
- * @memberOf Cypress.Chainable#
- * @name upload_file
- * @function
- * @param {String} selector - element to target
- * @param {String} fileUrl - The file url to upload
- * @param {String} type - content type of the uploaded file
- */
-
 import 'cypress-file-upload';
 
-Cypress.Commands.add("CargarDocumentos", (selector, cantidad) => {
-    cy.get(selector).each((element, index, list) => {
-        cy.wrap(element).within(form => {
-            const  fileName  =  'Otro.pdf'; 
-            cy.fixture(fileName).then(fileContent  =>  {
-                for (let i = 0; i < cantidad; i++) {    
-                    cy.get('.fileupload').upload({  fileContent,  fileName,  mimeType:   'application/pdf'  });
-                } 
-            });
-        })
-    });
-})
 
 Cypress.Commands.add('entrar', () => {
     cy.visit('http://10.181.3.183:8085/cmpqr_cartera/index.php')
@@ -56,19 +34,6 @@ Cypress.Commands.add('entrar', () => {
 Cypress.Commands.add('login', (user, pass) => {
     cy.get('input[type=text]').type(user)
     cy.get('input[type=password]').type(pass)
-})
-
-Cypress.Commands.add('validaForm', () => {
-    var data = Cypress.$("div[name=info_personal]").children().find(':input[type="text"]');
-    var agregaDatos = 'texto de prueba';
-    data.each(function() {
-        // alert(Cypress.$(this).val());
-        if (Cypress.$(this).val() == '') {
-            Cypress.$(this).val(agregaDatos);
-        } else {
-            // alert(Cypress.$(this).val());
-        }
-    })
 })
 
 Cypress.Commands.add("seleccionar", (name) => {
@@ -84,36 +49,12 @@ Cypress.Commands.add("seleccionar", (name) => {
     })
 })
 
-// Cypress.Commands.add("validaSeleccion", (name, seleccion) => {
-//     if (seleccion == "") {
-//         cy.seleccionar(name);
-//     }
-// })
-
 Cypress.Commands.add("navbar", ($modPrincipal, $modulo) => {
     cy.get('a.dropdown-toggle').contains($modPrincipal)
         .click()
     cy.get('a').contains($modulo)
         .click()
 })
-
-Cypress.Commands.add(
-    'iframeLoaded', { prevSubject: 'element' },
-    ($iframe) => {
-        const contentWindow = $iframe.prop('contentWindow')
-        return new Promise(resolve => {
-            if (
-                contentWindow &&
-                contentWindow.document.readyState === 'complete'
-            ) {
-                resolve(contentWindow)
-            } else {
-                $iframe.on('load', () => {
-                    resolve(contentWindow)
-                })
-            }
-        })
-    })
 
 Cypress.Commands.add(
     'getInDocument', { prevSubject: 'document' },
