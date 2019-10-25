@@ -26,6 +26,24 @@
 
 import 'cypress-file-upload';
 
+Cypress.Commands.add("CargarDocumentos", (selector, cantidad) => {
+    cy.get('object').iframeLoaded().its('document').getInDocument(selector).each((element, index, list) => {
+        cy.wrap(element).within(form => {
+            const  fileName  =  'TextImportarMalla.xls'; 
+            cy.get('input[type=file]')
+                .invoke('attr', 'style', 'display: block')
+                .should('have.attr', 'style', 'display: block')
+            cy.fixture(fileName).then(fileContent  =>  {
+                for (let i = 0; i < cantidad; i++) {   
+                    cy.get('input[type=file]')
+                        .upload({  fileContent,  fileName,  mimeType:   'application/vnd.ms-excel', encoding: 'utf-8'  });
+                } 
+            });
+        })
+    });
+})
+
+
 
 Cypress.Commands.add('entrar', () => {
     cy.visit('http://10.181.3.183:8085/cmpqr_cartera/index.php')
@@ -57,6 +75,23 @@ Cypress.Commands.add("navbar", ($modPrincipal, $modulo) => {
 })
 
 Cypress.Commands.add(
-    'getInDocument', { prevSubject: 'document' },
+    'iframeLoaded', { prevSubject: 'element' },
+    ($iframe) => {
+        const contentWindow = $iframe.prop('contentWindow')
+        return new Promise(resolve => {
+            if (
+                contentWindow &&
+                contentWindow.document.readyState === 'complete'
+            ) {
+                resolve(contentWindow)
+            } else {
+                $iframe.on('load', () => {
+                    resolve(contentWindow)
+                })
+            }
+        })
+    })
+
+Cypress.Commands.add('getInDocument', { prevSubject: 'document' },
     (document, selector) => Cypress.$(selector, document)
 )

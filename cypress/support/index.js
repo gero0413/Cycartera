@@ -15,11 +15,6 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
-import './validaDocumento'
-import './crea'
-import './busqueda'
-import './estudio'
-import './diligencia'
-
+import './malla'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
