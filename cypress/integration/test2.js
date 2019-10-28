@@ -84,23 +84,17 @@ describe("test", function() {
         cy.get('object').iframeLoaded().its('document').getInDocument('button.swal-button--confirm').click();
     }
 
-    function importar() {
-        cy.get('object').iframeLoaded().its('document').getInDocument('button#importar').click();
-        cy.wait(2000)
-        cy.get('object').iframeLoaded().its('document').getInDocument('div#dialogo-inserta-malla').then(() => { 
-            // Cypress.$('input[name=archivo]').css('display', 'block');
-            const  fileName  =  'TextImportarMalla.xls'; 
-            cy.fixture(fileName).then(fileContent  =>  {
-                cy.wait(2000)
-                cy.get('object').iframeLoaded().its('document').getInDocument('input[name=nombre_archivo]').type("dfsdf")
-                    // .invoke('have.prop', 'readonly', false)
-                    // .should('have.attr', 'readonly')
-                    // .upload({  fileContent,  fileName,  mimeType: 'application/vnd.ms-excel', encoding: 'utf-8' })
-
-            });
+    function  importar()  { 
+        cy.get('object').iframeLoaded().its('document').getInDocument('button#importar').click(); 
+        cy.wait(2000) 
+        cy.get('object').iframeLoaded().its('document').getInDocument('div#dialogo-inserta-malla').then(()  =>  {  
+            const   fileName   =   'TextImportarMalla.xls';        
+            cy.fixture(fileName).then(fileContent   =>   {          
+                cy.wait(2000)             
+                cy.get('object').iframeLoaded().its('document').getInDocument('input[name=archivo]')                
+                    .upload({   fileContent,   fileName,   mimeType:   'application/vnd.ms-excel',  encoding:   'utf-8',  force:  true  })       
+            }); 
         });
-
-
     }
 
 })
