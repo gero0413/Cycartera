@@ -1,13 +1,25 @@
-function asignarClientes() {
+describe("Diligenciar solicitud", function() {
+
+    it("Diligenciar", function() {
+        ingresa();
+
+        asignar();
+        agregaAsesor();
+        reasignar();
+
+    })
+})
+
+function ingresa() {
+    cy.entrar();
+    cy.login("adminpqr2", "123{enter}");
+    cy.navbar("Campaña");
+
     cy.wait(2000)
     cy.get('object').iframeLoaded().its('document').getInDocument("input[type=search]").type("progresiva")
     cy.wait(2000)
     cy.get('object').iframeLoaded().its('document').getInDocument("a").eq(3).click()
     cy.wait(2000)
-
-    // asignar();
-    // agregaAsesor();
-    reasignar();
 }
 
 function asignar() {
@@ -40,5 +52,3 @@ function reasignar() {
         cy.get('object').iframeLoaded().its('document').getInDocument("button#reasignar").click()
     })
 }
-
-export default asignarClientes;

@@ -1,3 +1,17 @@
+describe("Diligenciar solicitud", function() {
+
+    it("Diligenciar", function() {
+        ingresa();
+        importarCampa();
+    })
+})
+
+function ingresa() {
+    cy.entrar();
+    cy.login("adminpqr2", "123{enter}");
+    cy.navbar("Campaña");
+}
+
 function importarCampa() {
     cy.wait(2000)
     cy.get('object').iframeLoaded().its('document').getInDocument("input[type=search]").type("geral")
@@ -12,5 +26,3 @@ function importarCampa() {
         }); 
     });
 }
-
-export default importarCampa;

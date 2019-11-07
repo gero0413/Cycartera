@@ -1,3 +1,17 @@
+describe("Diligenciar solicitud", function() {
+
+    it("Diligenciar", function() {
+        ingresa();
+        editarCampa();
+    })
+})
+
+function ingresa() {
+    cy.entrar();
+    cy.login("adminpqr2", "123{enter}");
+    cy.navbar("Campaña");
+}
+
 function editarCampa() {
     cy.wait(2000)
     cy.get('object').iframeLoaded().its('document').getInDocument("input[type=search]").type("geral")
@@ -19,5 +33,3 @@ function editarCampa() {
         cy.get('object').iframeLoaded().its('document').getInDocument("button[type=submit]").click()
     });
 }
-
-export default editarCampa;

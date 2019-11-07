@@ -26,52 +26,17 @@
 
 import 'cypress-file-upload';
 
-Cypress.Commands.add("CargarDocumentos", (selector, cantidad) => {
-    cy.get('object').iframeLoaded().its('document').getInDocument(selector).each((element, index, list) => {
-        cy.wrap(element).within(form => {
-            const  fileName  =  'TextImportarMalla.xls'; 
-            cy.get('input[type=file]')
-                .invoke('attr', 'style', 'display: block')
-                .should('have.attr', 'style', 'display: block')
-            cy.fixture(fileName).then(fileContent  =>  {
-                for (let i = 0; i < cantidad; i++) {   
-                    cy.get('input[type=file]')
-                        .upload({  fileContent,  fileName,  mimeType:   'application/vnd.ms-excel', encoding: 'utf-8'  });
-                } 
-            });
-        })
-    });
-})
-
-
-
 Cypress.Commands.add('entrar', () => {
-    cy.visit('http://10.181.3.183:8085/cmpqr_cartera/index.php')
+    cy.visit("http://10.181.3.183:8085/cmpqr_cartera/index.php");
 })
 
 Cypress.Commands.add('login', (user, pass) => {
-    cy.get('input[type=text]').type(user)
-    cy.get('input[type=password]').type(pass)
+    cy.get('input[name=usuario]').type(user)
+    cy.get('input[name=password]').type(pass)
 })
 
-Cypress.Commands.add("seleccionar", (name) => {
-    let options = Cypress.$(name + ">option").length;
-    let random = Math.floor(Math.random() * options);
-    cy.get(name + ">option").eq(String(random)).then(e => {
-        cy.get(name).select(e.val());
-        cy.then(() => {
-            if (Cypress.$(name).val() == "") {
-                cy.seleccionar(name);
-            }
-        })
-    })
-})
-
-Cypress.Commands.add("navbar", ($modPrincipal, $modulo) => {
-    cy.get('a.dropdown-toggle').contains($modPrincipal)
-        .click()
-    cy.get('a').contains($modulo)
-        .click()
+Cypress.Commands.add("navbar", (modulo) => {
+    cy.get("a").contains(modulo).invoke("show").click({ force: true })
 })
 
 Cypress.Commands.add(
@@ -95,3 +60,25 @@ Cypress.Commands.add(
 Cypress.Commands.add('getInDocument', { prevSubject: 'document' },
     (document, selector) => Cypress.$(selector, document)
 )
+
+Cypress.Commands.add("seleccionar", (name) => {
+    let options = Cypress.$(name + ">option").length;
+    let random = Math.floor(Math.random() * options);
+    cy.get(name + ">option").eq(String(random)).then(e => {
+        cy.get(name).select(e.val());
+        cy.then(() => {
+            if (Cypress.$(name).val() == "") {
+                cy.seleccionar(name);
+            }
+        })
+    })
+})
+
+Cypress.Commands.add("testSelect", function() {
+    cy
+        .get(frame)
+        .iframeLoaded()
+        .its('document')
+        .getInDocument(element)
+        .select(select)
+})
