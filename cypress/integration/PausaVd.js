@@ -1,19 +1,15 @@
 describe("test", function() {
     it("prueba", function() {
-        ingresa();
-        // loginVD();
+        loginVD();
+        pausaVD();
+        cy.wait(9000);
+        despausarVD();
+        verificaPausa("Activo");
     })
 })
 
-function ingresa() {
-    // cy.entrar();
-    // cy.login("adminpqr2", "123{enter}");
-    // cy.navbar("Campaña");
-    cy.visit("http://10.181.3.171/agc/vicidial.php?relogin=YES&session_epoch=1572984989&session_id=8600068&session_name=1572984608_cc53614236593&VD_login=QA004&VD_campaign=TESTMAN&phone_login=536&phone_pass=pys123&VD_pass=pys123")
-    cy.get("input[type=submit]").click()
-}
-
 function loginVD() {
+    cy.visit("http://10.181.3.171/");
     cy.get("a").contains("Agent Login").click()
     cy.get("input[name=phone_login]").type("536")
     cy.get("input[name=phone_pass]").type("pys123")
@@ -22,27 +18,54 @@ function loginVD() {
     // VD Login
     cy.get("input[name=VD_login]").type("QA004")
     cy.get("input[name=VD_pass]").type("pys123")
-    cy.wait(2000)
-    cy.get("#VD_campaign")
-        .contains('TESTMAN - Campaña de Marcación Manual')
-        .then(function($select) {
-            var value = $select[0].value;
-            cy.get('[data-cy=test_select]').select(value, { force: true });
-        });
+    cy.get('#VD_campaign').select('')
+    cy.wait(1000)
+    cy.get('#VD_campaign').select('TESTMAN - Campaña de Marcación Manual').should('have.value', 'TESTMAN')
+    cy.get("input[type=submit]").click()
+
+    //Click en submit
+    // Group selection
+    cy.wait(4000)
+    cy.xpath('//*[@id="CloserSelectBox"]/table/tbody/tr/td/font[2]/a[2]').click()
 }
 
 function pausaVD() {
-    // submit de login
-    cy.get("a").contains("SUBMIT").click()
+    let almuerzo = '//*[@id="PauseCodeSelectA"]/font[1]/b/a';
+    let backOffice = '//*[@id="PauseCodeSelectA"]/font[2]/b/a';
+    let capacitacion = '//*[@id="PauseCodeSelectB"]/font[1]/b/a';
+    let descanso = '//*[@id="PauseCodeSelectB"]/font[2]/b/a';
+    let pausas_activas = '//*[@id="PauseCodeSelectB"]/font[3]/b/a';
 
-    // llamada entrante a zoiper
-    cy.wait(4000)
+    cy.xpath('//*[@id="DiaLControl"]/a[1]').click()
+    cy.wait(1000)
+    cy.xpath('//*[@id="DiaLControl"]/a[1]').click()
+    cy.wait(1000)
+    cy.xpath(capacitacion).click()
+}
 
-    // Group selection
-    // cy.get("a").contains("OK").click()
-    // cy.wait(4000)
+function despausarVD() {
+    cy.xpath('//*[@id="DiaLControl"]/a[1]').click()
+    cy.wait(1000)
+    cy.xpath('//*[@id="Header"]/table/tbody/tr/td[2]/font/a[2]').click()
+}
 
-    cy.get("a").contains("SUBMIT").click()
-    cy.wait(2000)
+function verificaPausa(estado) {
+    cy.entrar();
+    cy.login("1094947267", "123{enter}");
+
+    // consultar malla
+    cy.navbar("Malla de Turnos");
+    cy.frameFecha("object", "input[name=fecha_inicio]", hoy);
+    cy.frameFecha("object", "input[name=fecha_fin]", hoy);
+    cy.frameSelect("object", "select[name=cod_area]", "Crédito");
+    cy.get("object").iframeLoaded().its("document").getInDocument("button").click();
+
+    //Verificar estado
+    cy.get('object').iframeLoaded().its('document').getInDocument('div.container-fluid').then(() => {
+        cy.wait(2000)
+        cy.get('object').iframeLoaded().its('document').getInDocument("#malla-turnos_wrapper").should("contain", estado)
+    });
+
+    // Verificar registro
 
 }

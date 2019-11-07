@@ -4,7 +4,7 @@ describe("test", function() {
         pausar();
         consultaMalla();
         verificarPausa("Pausado");
-        cy.wait(3500)
+        cy.wait(5500)
         despausar();
     })
 })
@@ -19,7 +19,7 @@ function ingresa() {
 }
 
 function pausar() {
-    cy.frameSelect("object", "select[name=cod_motivo_pausa]", "Break");
+    cy.frameSelect("object", "select[name=cod_motivo_pausa]", "Capacitación");
     cy.get('object').iframeLoaded().its('document').getInDocument('button').click();
     cy.log("aqui empieza la pausa")
 }
