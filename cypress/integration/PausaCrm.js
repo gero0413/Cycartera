@@ -6,15 +6,17 @@ describe("test", function() {
         verificarPausa("Pausado");
         cy.wait(5500)
         despausar();
+        // verificarDatosPausa();
     })
 })
 
+let  mem  =   [];
 let fecha = new Date();
 let hoy = fecha.getFullYear() + '-' + (fecha.getMonth() + 1) + '-' + fecha.getDate();
 
 function ingresa() {
     cy.entrar();
-    cy.login("1094947267", "123{enter}");
+    cy.login("51964417", "123{enter}");
     cy.navbar("Pausas");
 }
 
@@ -22,6 +24,7 @@ function pausar() {
     cy.frameSelect("object", "select[name=cod_motivo_pausa]", "Capacitación");
     cy.get('object').iframeLoaded().its('document').getInDocument('button').click();
     cy.log("aqui empieza la pausa")
+    verificarDatosPausa();
 }
 
 function consultaMalla() {
@@ -29,7 +32,7 @@ function consultaMalla() {
     cy.frameFecha("object", "input[name=fecha_inicio]", hoy);
     cy.frameFecha("object", "input[name=fecha_fin]", hoy);
     cy.frameSelect("object", "select[name=cod_area]", "Crédito");
-    cy.get("object").iframeLoaded().its("document").getInDocument("button").click();
+    cy.get("object").iframeLoaded().its("document").getInDocument("button", { timeout: 10000 }).click();
 }
 
 function verificarPausa(estado) {
@@ -46,8 +49,23 @@ function despausar() {
     //Despausar
     cy.get("object").iframeLoaded().its("document").getInDocument("button").click();
     cy.log("aqui termina la pausa")
+    verificarDatosPausa();
+
     consultaMalla();
 
     // Verificar estado 
     verificarPausa("Activo");
+}
+
+function  verificarDatosPausa()  {    
+    cy.vHora().then((value)   =>   {        
+        let  tiempo  =  value;   
+        mem.push(tiempo);      
+        // cy.obtieneValor(mem)        
+        // console.log(mem); 
+        let inicio = mem[0];
+        let fin = mem[1];
+        let total = inicio - fin;   
+        console.log(total);
+    })
 }

@@ -4,7 +4,7 @@ describe("test", function() {
         pausaVD();
         cy.wait(9000);
         despausarVD();
-        verificaPausa("Activo");
+        // verificaPausa("Activo");
     })
 })
 

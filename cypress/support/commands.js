@@ -82,3 +82,17 @@ Cypress.Commands.add("testSelect", function() {
         .getInDocument(element)
         .select(select)
 })
+
+Cypress.Commands.add("vHora", function() {
+    let hora = Cypress.moment().format('LTS');
+    return hora;
+})
+
+Cypress.Commands.add("obtieneValor", function(vPausas) {
+    console.log(vPausas);
+    let inicio = vPausas[0];
+    let fin = vPausas[1];
+    let total = inicio - fin;
+
+    console.log(total);
+})
