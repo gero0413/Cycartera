@@ -6,7 +6,9 @@ describe("test", function() {
         verificarPausa("Pausado");
         cy.wait(5500)
         despausar();
-        // verificarDatosPausa();
+        cy.wait(3000)
+            // verificarDatosPausa();
+            // Pausa();
     })
 })
 
@@ -60,12 +62,12 @@ function despausar() {
 function  verificarDatosPausa()  {    
     cy.vHora().then((value)   =>   {        
         let  tiempo  =  value;   
-        mem.push(tiempo);      
-        // cy.obtieneValor(mem)        
-        // console.log(mem); 
-        let inicio = mem[0];
-        let fin = mem[1];
-        let total = inicio - fin;   
-        console.log(total);
+        mem.push(tiempo);
+        // console.log(value);
+        cy.obtieneValor(mem);
+        // var hora1 = (mem[0]).split("PM");
+        // var hora2 = (mem[0]).split("PM");
+        // var total = (hora1 - hora2) / 1000;
+        // console.log(total)
     })
 }
