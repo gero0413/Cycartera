@@ -87,8 +87,6 @@ Cypress.Commands.add("vHora", function() {
     let sec = Cypress.moment().seconds();
     let minuto = Cypress.moment().minutes();
     let hora = Cypress.moment().hours();
-
-    t1.setHours(t1.getHours() - t2.getHours(), t1.getMinutes() - t2.getMinutes(), t1.getSeconds() - t2.getSeconds());
     let final = hora + ":" + minuto + ":" + sec;
     return final;
 })
@@ -96,5 +94,5 @@ Cypress.Commands.add("vHora", function() {
 Cypress.Commands.add("obtieneValor", function(vPausas) {
     let inicio = vPausas[0];
     let fin = vPausas[1];
-    console.log(parseInt(fin) - parseInt(inicio));
+    console.log(inicio + "fin" + fin);
 })
