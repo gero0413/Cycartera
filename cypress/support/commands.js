@@ -83,10 +83,32 @@ Cypress.Commands.add("testSelect", function() {
         .select(select)
 })
 
+Cypress.Commands.add("validaTurno", function() {
+    cy.navbar("Pausas");
+    cy.get('object').iframeLoaded().its('document').getInDocument('div.row').then(() => {
+        cy.wait(2000)
+        cy.get('object').iframeLoaded().its('document').getInDocument("#malla-turnos_wrapper").should("contain", "¡No se encuentra en el malla de turnos! El usuario no está en el horario que le corresponde")
+    });
+})
+
 Cypress.Commands.add("vHora", function() {
-    let sec = Cypress.moment().seconds();
-    let minuto = Cypress.moment().minutes();
     let hora = Cypress.moment().hours();
+    let minuto = Cypress.moment().minutes();
+    let sec = Cypress.moment().seconds();
+
+    let str_hora = new String(hora);
+    let str_minuto = new String(minuto);
+    let str_sec = new String(sec);
+
+    if (str_hora.length == 1) {
+        hora = "0" + hora
+    }
+    if (str_minuto.length == 1) {
+        minuto = "0" + minuto
+    }
+    if (str_sec.length == 1) {
+        sec = "0" + sec
+    }
     let final = hora + ":" + minuto + ":" + sec;
     return final;
 })

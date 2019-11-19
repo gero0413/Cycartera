@@ -1,12 +1,12 @@
+const moment = require("moment");
+
 describe("test", function() {
     it("prueba", function() {
-        ingresa();
-        pausar();
-        consultaMalla();
-        verificarPausa("Pausado");
-        cy.wait(5500)
-        despausar();
-        verificarDatosPausa();
+        cy.entrar();
+        cy.login("adminpqr3", "123{enter}");
+        cy.verificaLugarPausa("Crédito").then((flag) => {
+            flag == 1 ? vPausasVd() : vPausasCrm();
+        });
     })
 })
 
@@ -15,13 +15,38 @@ let fecha = new Date();
 let hoy = fecha.getFullYear() + '-' + (fecha.getMonth() + 1) + '-' + fecha.getDate();
 let mPausa = "Break";
 
-function ingresa() {
+function vPausasVd() {
+    cy.get('a').contains("Salir").click();
+    cy.wait(2000)
+    cy.get(".confirm").click();
+
+    cy.login("51964417", "123{enter}");
+    cy.navbar("Pausas")
+    cy.get('object').iframeLoaded().its('document').getInDocument(".row").should("contain", "Las pausas de este usuario se getionan directamente en Vicidial")
+    cy.wait(2000)
+    cy.get('a').contains("Salir").click();
+    cy.wait(2000)
+    cy.get(".confirm").click();
+}
+
+function vPausasCrm() {
+    cy.get('a').contains("Salir").click();
+    cy.wait(2000)
+    cy.get(".confirm").click();
+
     cy.entrar();
     cy.login("51964417", "123{enter}");
-    cy.navbar("Pausas");
+    cy.navbar("Pausas")
+    pausar();
+    consultaMalla();
+    verificarPausa("Pausado");
+    cy.wait(5500)
+    despausar();
+    verificarPausa("Activo");
 }
 
 function pausar() {
+    // Validar si existe turno
     cy.frameSelect("object", "select[name=cod_motivo_pausa]", mPausa);
     cy.get('object').iframeLoaded().its('document').getInDocument('button').click();
     cy.log("aqui empieza la pausa")
@@ -45,7 +70,6 @@ function verificarPausa(estado) {
 
 function despausar() {
     cy.navbar("Pausas");
-    // Verificar si existe turno
 
     //Despausar
     cy.get("object").iframeLoaded().its("document").getInDocument("button").click();
@@ -69,13 +93,14 @@ function  verificarDatosPausa()  {    
         console.log("Inicio Pausa" + hInicial + "Fin Pausa" + hFinal);
 
         // Verificar datos
+        consultaMalla();
         cy.wait(2000)
-            // cy.get('object').iframeLoaded().its('document').getInDocument("button.detalle-pausas").first().click();
-            // cy.get('object').iframeLoaded().its('document').getInDocument('div.container-fluid').then(() => {
-            //     cy.wait(2000)
-            //     cy.get('object').iframeLoaded().its('document').getInDocument("#table-pausas_wrapper").should("contain", "11:54:12")
-            //     cy.get('object').iframeLoaded().its('document').getInDocument("#table-pausas_wrapper").should("contain", estado)
-            //     cy.get('object').iframeLoaded().its('document').getInDocument("#table-pausas_wrapper").should("contain", estado)
-            // });
+        cy.get('object').iframeLoaded().its('document').getInDocument("button.detalle-pausas").first().click();
+        cy.get('object').iframeLoaded().its('document').getInDocument('div.container-fluid').then(() => {
+            cy.wait(2000)
+            cy.get('object').iframeLoaded().its('document').getInDocument("#table-pausas_wrapper").should("contain", hInicial)
+                // cy.get('object').iframeLoaded().its('document').getInDocument("#table-pausas_wrapper").should("contain", estado)
+                // cy.get('object').iframeLoaded().its('document').getInDocument("#table-pausas_wrapper").should("contain", estado)
+        });
     })
 }
