@@ -92,7 +92,7 @@ function  verificarDatosPausa()  {    
         let hFinal = mem[1];
         console.log("Inicio Pausa" + hInicial + "Fin Pausa" + hFinal);
 
-        // Verificar datos
+        // Verificar datos 
         consultaMalla();
         cy.wait(2000)
         cy.get('object').iframeLoaded().its('document').getInDocument("button.detalle-pausas").first().click();

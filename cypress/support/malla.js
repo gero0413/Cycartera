@@ -66,3 +66,16 @@ Cypress.Commands.add("verificaLugarPausa", function(area) {
         })
     })
 })
+
+Cypress.Commands.add("verificaPerfil", function(usuario) {
+    cy.navbar("Usuario");
+    cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-usuarios_wrapper").then(() => {
+        cy.wait(2000)
+        cy.get('object').iframeLoaded().its('document').getInDocument("input.input-sm").type(usuario);
+        cy.get('object').iframeLoaded().its('document').getInDocument("a.editar").click();
+        cy.wait(2000)
+        cy.get('object').iframeLoaded().its('document').getInDocument("#perfil").invoke("val").then((cod_perfil)  =>  {
+            return cod_perfil;
+        })
+    })
+})
