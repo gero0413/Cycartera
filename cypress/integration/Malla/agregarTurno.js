@@ -1,15 +1,16 @@
 describe("test", function() {
     it("prueba", function() {
         ingresa();
-        agregaTurno();
-        validarIngreso();
+        // turnoCorrecto();
+        TurnoSinFechaInicial();
+        // validarIngreso();
         // cy.wait(2000)
         // consultaMalla();
     })
 })
 
-let fecha_inicio = "20-11-2019";
-let fecha_fin = "20-11-2019";
+let fecha_inicio = "26-11-2019";
+let fecha_fin = "26-11-2019";
 
 let hora_inicio = "08:00";
 let hora_fin = "20:00";
@@ -34,7 +35,7 @@ function consultaMalla() {
     cy.get('object').iframeLoaded().its('document').getInDocument('button.detalle-pausas-programadas').should('be.visible');
 }
 
-function agregaTurno() {
+function turnoCorrecto() {
     cy.get('object').iframeLoaded().its('document').getInDocument('button#agrega-turnos', { timeout: 10000 }).click();
     cy.wait(2000)
     cy.get('object').iframeLoaded().its('document').getInDocument('div#form-agregar-turno').then(() => {
@@ -42,7 +43,7 @@ function agregaTurno() {
         cy.get('object').iframeLoaded().its('document').getInDocument("button.multiselect").click()
         cy.get('object').iframeLoaded().its('document').getInDocument(".container-fluid").within(() => {
             cy.get("input[type=checkbox]").eq(0).check()
-            cy.get("input[type=checkbox]").eq(0).check()
+                // cy.get("input[type=checkbox]").eq(0).check()
         })
 
         cy.frameFecha("object", "input[name=fecha_inicio]", fecha_inicio);
@@ -55,8 +56,26 @@ function agregaTurno() {
             cy.get('object').iframeLoaded().its('document').getInDocument("input[name='hora_inicio_pausa[]']").type("09:15")
             cy.get('object').iframeLoaded().its('document').getInDocument("input[name='hora_fin_pausa[]']").type("09:30")
         })
-
+        cy.wait(2000)
         cy.get('object').iframeLoaded().its('document').getInDocument("button[type=submit]").click()
+    });
+}
+
+function TurnoSinFechaInicial() {
+    cy.get('object').iframeLoaded().its('document').getInDocument('button#agrega-turnos', { timeout: 10000 }).click();
+    cy.wait(2000)
+    cy.get('object').iframeLoaded().its('document').getInDocument('div#form-agregar-turno').then(() => {
+        // cy.get('object').iframeLoaded().its('document').getInDocument("select[name=cod_area]").select(area)
+        // cy.get('object').iframeLoaded().its('document').getInDocument("button.multiselect").click()
+        // cy.get('object').iframeLoaded().its('document').getInDocument(".container-fluid").within(() => {
+        //     cy.get("input[type=checkbox]").eq(0).check()
+        // })
+        // cy.frameFecha("object", "input[name=fecha_fin]", fecha_fin);
+        // cy.get('object').iframeLoaded().its('document').getInDocument("input[name=hora_inicio]").type(hora_inicio)
+        // cy.get('object').iframeLoaded().its('document').getInDocument("input[name=hora_fin]").type(hora_fin)
+        cy.get('object').iframeLoaded().its('document').getInDocument("button[type=submit]").click()
+        cy.wait(1000)
+        cy.get('object').iframeLoaded().its('document').getInDocument('tooltip').should()
     });
 }
 

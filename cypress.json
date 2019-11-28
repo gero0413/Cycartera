@@ -1,3 +1,7 @@
 {
-    "chromeWebSecurity": false
+    "chromeWebSecurity": false,
+    "video": true,
+    "videosFolder": "cypress/videos",
+    "videoCompression": 32,
+    "videoUploadOnPasses": true
 }
