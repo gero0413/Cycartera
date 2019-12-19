@@ -1,30 +1,17 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This is will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
-
 import 'cypress-file-upload';
+
+Cypress.Commands.add("CargarDocumentos", (selector, cantidad) => {
+    cy.get('object').iframeLoaded().its('document').getInDocument(selector).each((element, index, list) => {
+        cy.wrap(element).within(form => {
+            const  fileName  =  'Otro.pdf'; 
+            cy.fixture(fileName).then(fileContent  =>  {
+                for (let i = 0; i < cantidad; i++) {    
+                    cy.get('object').iframeLoaded().its('document').getInDocument('input[name=archivo').upload({  fileContent,  fileName,  mimeType:   'application/pdf'  });
+                } 
+            });
+        })
+    });
+})
 
 Cypress.Commands.add('entrar', () => {
     cy.visit("http://10.181.3.183:8085/cmpqr_cartera/index.php");
@@ -117,4 +104,11 @@ Cypress.Commands.add("obtieneValor", function(vPausas) {
     let inicio = vPausas[0];
     let fin = vPausas[1];
     console.log(inicio + "fin" + fin);
+})
+
+Cypress.Commands.add("cantidadAsesores", function() {
+    let odd = cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-asesores").find("tr.odd")
+    let valor = Cypress.$(odd).length;
+    return valor;
+
 })
