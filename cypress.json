@@ -1,7 +1,8 @@
 {
-    "chromeWebSecurity": false,
-    "video": true,
-    "videosFolder": "cypress/videos",
-    "videoCompression": 32,
-    "videoUploadOnPasses": true
+  "chromeWebSecurity": false,
+  "video": true,
+  "videosFolder": "cypress/videos",
+  "videoCompression": 32,
+  "videoUploadOnPasses": true,
+  "projectId": "1vnwg2"
 }

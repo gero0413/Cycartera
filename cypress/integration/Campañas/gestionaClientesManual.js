@@ -40,10 +40,11 @@ function gestionClientes() {
                 cy.wait(3000)
                 cy.get('[type="radio"]').check(indicativo + '$3000000000')
                 cy.get("#marcacion").click()
-                cy.seleccionar("select[name=cod_gestion_nu]")
-                cy.get("#observacion").type("Test Geral automatización")
-                cy.get("#actualizar").click()
-                cy.wait(2000)
+                cy.visit("http://10.181.3.171/");
+                // cy.seleccionar("select[name=cod_gestion_nu]")
+                // cy.get("#observacion").type("Test Geral automatización")
+                // cy.get("#actualizar").click()
+                // cy.wait(2000)
             })
         }
         cy.then(() => {
@@ -71,8 +72,8 @@ function loginVD() {
 
     //Click en submit
     // Group selection
-    cy.wait(4000)
-    cy.xpath('//*[@id="CloserSelectBox"]/table/tbody/tr/td/font[2]/a[2]').click()
+    // cy.wait(4000)
+    // cy.xpath('//*[@id="CloserSelectBox"]/table/tbody/tr/td/font[2]/a[2]').click()
 }
 
 function pausaVD() {

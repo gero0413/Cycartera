@@ -13,10 +13,10 @@ describe("Parametrización de campañas", function() {
         agregacampa();
         editarCampa();
         //adicional enviar el nombre del archivo a cargar
-        importarCampa();
+        importarCampa(1, "importarClientes2.csv");
 
         // Enviar como parametro en nombre de la campaña a buscar
-        buscarCampana("Test Geral Manual")
+        // buscarCampana("Test Geral Manual")
     })
 })
 

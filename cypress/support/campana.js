@@ -29,3 +29,11 @@ Cypress.Commands.add("seleccionaCanal", function(canal) {
         cy.get('object').iframeLoaded().its('document').getInDocument("select[name=cod_plantilla]").select("test1")
     }
 })
+
+Cypress.Commands.add("obtieneClientes", function() {
+    cy.get('object').iframeLoaded().its('document').getInDocument("#clientes-cargados").then(elem => {
+        let n_clientes = elem.val();
+        return n_clientes;
+        // validaAsignacion(n_clientes);
+    })
+})
