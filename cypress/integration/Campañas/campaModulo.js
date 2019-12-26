@@ -11,9 +11,9 @@ describe("Parametrización de campañas", function() {
 
         // Para que las funciones se realicen, se debe enviar como parametro 1
         agregacampa();
-        editarCampa();
+        editarCampa(1);
         //adicional enviar el nombre del archivo a cargar
-        importarCampa(1, "importarClientes2.csv");
+        // importarCampa(1, "importarClientes2.csv");
 
         // Enviar como parametro en nombre de la campaña a buscar
         // buscarCampana("Test Geral Manual")
