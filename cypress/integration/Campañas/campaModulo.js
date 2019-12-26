@@ -11,9 +11,9 @@ describe("Parametrización de campañas", function() {
 
         // Para que las funciones se realicen, se debe enviar como parametro 1
         agregacampa();
-        editarCampa(1);
-        //adicional enviar el nombre del archivo a cargar
-        // importarCampa(1, "importarClientes2.csv");
+        editarCampa();
+        //adicional enviar el nombre del archivo a cargar y el tipo de archivo "Csv" o "Pdf"
+        importarCampa(1, "carga_clientes_exitoso.csv", "text/csv");
 
         // Enviar como parametro en nombre de la campaña a buscar
         // buscarCampana("Test Geral Manual")
@@ -28,3 +28,4 @@ function buscarCampana(campana) {
         cy.get('object').iframeLoaded().its('document').getInDocument("#table-campanas_wrapper").should("contain", campana)
     });
 }
+

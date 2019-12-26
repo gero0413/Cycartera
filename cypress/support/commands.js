@@ -110,5 +110,4 @@ Cypress.Commands.add("cantidadAsesores", function() {
     let odd = cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-asesores").find("tr.odd")
     let valor = Cypress.$(odd).length;
     return valor;
-
 })
