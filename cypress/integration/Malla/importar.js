@@ -9,7 +9,7 @@ describe("test", function() {
 function ingresa() {
     cy.entrar();
     cy.login("adminpqr2", "123{enter}");
-    cy.navbar("Campaña");
+    cy.navbar("Malla de Turnos");
 }
 
 function consultaMalla() {
@@ -21,13 +21,16 @@ function consultaMalla() {
 
 function  importar()  { 
     cy.get('object').iframeLoaded().its('document').getInDocument('button#importar').click(); 
-    cy.wait(2000) 
-    cy.get('object').iframeLoaded().its('document').getInDocument('div#dialogo-inserta-malla').then(()  =>  {  
-        const   fileName   =   'TextImportarMalla.xls';        
-        cy.fixture(fileName).then(fileContent   =>   {          
-            cy.wait(2000)             
-            cy.get('object').iframeLoaded().its('document').getInDocument('input[name=archivo]')                
-                .upload({   fileContent,   fileName,   mimeType:   'application/vnd.ms-excel',  encoding:   'utf-8',  force:  true  })       
-        }); 
+    cy.wait(2000)
+    let fileName = "ImportarMalla.xls";
+    cy.get('object').iframeLoaded().its('document').getInDocument('div.panel panel-primary').then(() => {
+        cy.fixture(fileName).then(fileContent => {
+            cy.wait(2000)
+            cy.get('object').iframeLoaded().its('document').getInDocument('input[name=archivo]')
+                .upload({fileContent, fileName, mimeType: 'application/vnd.ms-excel', encoding: 'ascii', force: true})
+                .trigger("input", {force: true})
+                .wait(4000)
+        });
+        cy.get('object').iframeLoaded().its('document').getInDocument('[name=btn_importa]').click()
     });
 }

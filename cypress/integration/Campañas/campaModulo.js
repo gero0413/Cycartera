@@ -1,6 +1,5 @@
 import agregacampa from './crearCampa';
 import editarCampa from './editarCampa';
-import importarCampa from './importar'
 
 describe("Parametrización de campañas", function() {
 
@@ -9,14 +8,14 @@ describe("Parametrización de campañas", function() {
         cy.login("adminpqr3", "123{enter}");
         cy.navbar("Campaña");
 
+        // Enviar como parametro en nombre de la campaña a buscar
+        // buscarCampana("Test Geral Manual")
+
         // Para que las funciones se realicen, se debe enviar como parametro 1
         agregacampa();
         editarCampa();
-        //adicional enviar el nombre del archivo a cargar y el tipo de archivo "Csv" o "Pdf"
-        importarCampa(1, "carga_clientes_exitoso.csv", "text/csv");
+        importarCampa(1);
 
-        // Enviar como parametro en nombre de la campaña a buscar
-        // buscarCampana("Test Geral Manual")
     })
 })
 
@@ -27,5 +26,15 @@ function buscarCampana(campana) {
         cy.wait(2000)
         cy.get('object').iframeLoaded().its('document').getInDocument("#table-campanas_wrapper").should("contain", campana)
     });
+}
+
+function importarCampa(importar) {
+    if (importar == 1) {
+        cy.wait(4000)
+        cy.get('object').iframeLoaded().its('document').getInDocument("input[type=search]").type("geral")
+        cy.wait(2000)
+        cy.get('object').iframeLoaded().its('document').getInDocument("a").eq(2).click()
+        cy.CargarDocumento("carga_clientes_exitoso.csv", "text/csv")
+    }
 }
 

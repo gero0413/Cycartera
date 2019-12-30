@@ -1,15 +1,15 @@
 import 'cypress-file-upload';
 
-Cypress.Commands.add("CargarDocumentos", (selector, cantidad) => {
-    cy.get('object').iframeLoaded().its('document').getInDocument(selector).each((element, index, list) => {
-        cy.wrap(element).within(form => {
-            const  fileName  =  'Otro.pdf'; 
-            cy.fixture(fileName).then(fileContent  =>  {
-                for (let i = 0; i < cantidad; i++) {    
-                    cy.get('object').iframeLoaded().its('document').getInDocument('input[name=archivo').upload({  fileContent,  fileName,  mimeType:   'application/pdf'  });
-                } 
-            });
-        })
+Cypress.Commands.add("CargarDocumento", (fileName, tipo) => {
+    cy.get('object').iframeLoaded().its('document').getInDocument('div.panel panel-primary').then(() => {
+        cy.fixture(fileName).then(fileContent => {
+            cy.wait(2000)
+            cy.get('object').iframeLoaded().its('document').getInDocument('input[name=archivo]')
+                .upload({fileContent, fileName, mimeType: tipo, encoding: 'ascii', force: true})
+                .trigger("input", {force: true})
+                .wait(1000)
+        });
+        cy.verificarImporte(fileName);
     });
 })
 

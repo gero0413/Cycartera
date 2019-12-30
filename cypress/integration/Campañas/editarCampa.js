@@ -24,6 +24,9 @@ function editarCampa(edita) {
 
                 cy.get('object').iframeLoaded().its('document').getInDocument("button[type=submit]").click();
                 cy.log("Se ha cambiado la fecha correctamente");
+            }else{
+                cy.get('object').iframeLoaded().its('document').getInDocument("button[type=submit]").click();
+                cy.log("No se realiza cambio ya que la fecha coincide y se puede realizar las debidas gestiones");
             }
         })
 

@@ -1,3 +1,5 @@
 {
-
+  "scripts": {
+    "test": "cypress run --record --key aa50ab2d-9ef9-4fa1-87fe-3a09bca4acdf --browser chrome"
+  }
 }
