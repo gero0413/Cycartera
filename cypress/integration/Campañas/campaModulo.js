@@ -5,7 +5,7 @@ describe("Parametrización de campañas", function() {
 
     it("Crear campañas", function() {
         cy.entrar();
-        cy.login("adminpqr3", "123{enter}");
+        cy.login("admingeral", "123{enter}");
         cy.navbar("Campaña");
 
         // Enviar como parametro en nombre de la campaña a buscar
@@ -34,7 +34,7 @@ function importarCampa(importar) {
         cy.get('object').iframeLoaded().its('document').getInDocument("input[type=search]").type("geral")
         cy.wait(2000)
         cy.get('object').iframeLoaded().its('document').getInDocument("a").eq(2).click()
-        cy.CargarDocumento("carga_clientes_exitoso.csv", "text/csv")
+        cy.CargarDocumento("falla_documento_cliente.csv", "text/csv", "3")
     }
 }
 

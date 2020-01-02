@@ -1,4 +1,4 @@
-Cypress.Commands.add("verificarImporte", (nombre_archivo) => {
+Cypress.Commands.add("verificarImporte", (nombre_archivo, cantidad_correcta) => {
     if (nombre_archivo === "carga_clientes_exitoso.csv") {
         cy.log("La carga es exitosa." +
             "Se deben cargar 20 clientes");
@@ -31,30 +31,27 @@ Cypress.Commands.add("verificarImporte", (nombre_archivo) => {
         cy.get('object').iframeLoaded().its('document').getInDocument("div.swal-title").should("contain", "Error")
         cy.get('object').iframeLoaded().its('document').getInDocument('button.swal-button--confirm').click()
     }
-    if (nombre_archivo !== "falla_formato_documento.pdf"){
+    if (nombre_archivo !== "falla_formato_documento.pdf") {
         cy.get('object').iframeLoaded().its('document').getInDocument("button[name=btn_importa]").click()
         cy.wait(6000)
         cy.get('object').iframeLoaded().its('document').getInDocument('button.swal-button--confirm').click();
         cy.get('object').iframeLoaded().its('document').getInDocument("div.swal-title").should("contain", "Correcto")
-
-      cantidadClientes(20);
+        cantidadClientes(cantidad_correcta);
     }
 })
 
 function cantidadClientes(cant) {
-    // cy.obtieneClientes();
     cy.wait(2000)
-    cy.get('object').iframeLoaded().its('document').getInDocument("#clientes-cargados").then(elem => {
+    cy.get('object').iframeLoaded().its('document').getInDocument('#clientes-cargados').then(elem => {
         let n_clientes = Cypress.$(elem).val();
-        if(n_clientes == cant){
+        if (n_clientes == cant) {
             cy.log("La cantidad de clientes es correcta");
-        }else{
+            cy.get('object').iframeLoaded().its('document').getInDocument("button#atras")
+            cy.get('object').iframeLoaded().its('document').getInDocument("button#procesar").click()
+            cy.wait(2000)
+            cy.get('object').iframeLoaded().its('document').getInDocument('button.swal-button--confirm').click();
+        } else {
             cy.log("Ha ocurrido un error, verifica el archivo cargado")
         }
     })
-
-    // cy.get('object').iframeLoaded().its('document').getInDocument("button#atras")
-    // cy.get('object').iframeLoaded().its('document').getInDocument("button#procesar").click()
-    // cy.wait(2000)
-    // cy.get('object').iframeLoaded().its('document').getInDocument('button.swal-button--confirm').click();
 }

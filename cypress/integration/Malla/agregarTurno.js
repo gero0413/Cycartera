@@ -1,21 +1,21 @@
 describe("test", function() {
     it("prueba", function() {
         ingresa();
-        // turnoCorrecto();
-        TurnoSinFechaInicial();
+        turnoCorrecto();
+        // TurnoSinFechaInicial();
         // validarIngreso();
-        // cy.wait(2000)
-        // consultaMalla();
+        cy.wait(2000)
+        consultaMalla();
     })
 })
 
-let fecha_inicio = "26-11-2019";
-let fecha_fin = "26-11-2019";
+let fecha_inicio = "02-01-2020";
+let fecha_fin = "02-01-2020";
 
 let hora_inicio = "08:00";
 let hora_fin = "20:00";
 
-let area = "Crédito";
+let area = "Servicio al cliente";
 let motivo_pausa = "Break";
 
 let prueba = "";
@@ -52,12 +52,12 @@ function turnoCorrecto() {
         cy.get('object').iframeLoaded().its('document').getInDocument("input[name=hora_fin]").type(hora_fin)
 
         cy.get('object').iframeLoaded().its('document').getInDocument("div.pausas-programadas").then(() => {
-            cy.get('object').iframeLoaded().its('document').getInDocument("select#pausas-area").select(motivo_pausa)
+            cy.get('object').iframeLoaded().its('document').getInDocument("select.pausas-area").select(motivo_pausa)
             cy.get('object').iframeLoaded().its('document').getInDocument("input[name='hora_inicio_pausa[]']").type("09:15")
             cy.get('object').iframeLoaded().its('document').getInDocument("input[name='hora_fin_pausa[]']").type("09:30")
         })
-        cy.wait(2000)
-        cy.get('object').iframeLoaded().its('document').getInDocument("button[type=submit]").click()
+        cy.wait(3000)
+        cy.get('object').iframeLoaded().its('document').getInDocument("button").contains("Guardar").click()
     });
 }
 

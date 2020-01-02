@@ -16,7 +16,7 @@ let indicativo = 1;
 
 function ingresa() {
     cy.entrar();
-    cy.login("1094947267", "123{enter}");
+    cy.login("1094785632", "123{enter}");
     cy.navbar("Principal");
     cy.visit("http://10.181.3.183:8085/cmpqr_cartera/revisa.php?rand=804324054&modulo=3")
 
@@ -40,11 +40,11 @@ function gestionClientes() {
                 cy.wait(3000)
                 cy.get('[type="radio"]').check(indicativo + '$3000000000')
                 cy.get("#marcacion").click()
-                cy.visit("http://10.181.3.171/");
-                // cy.seleccionar("select[name=cod_gestion_nu]")
-                // cy.get("#observacion").type("Test Geral automatización")
-                // cy.get("#actualizar").click()
-                // cy.wait(2000)
+                // cy.visit("http://10.181.3.171/");
+                cy.seleccionar("select[name=cod_gestion_nu]")
+                cy.get("#observacion").type("Test Geral automatización")
+                cy.get("#actualizar").click()
+                cy.wait(2000)
             })
         }
         cy.then(() => {

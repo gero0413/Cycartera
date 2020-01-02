@@ -1,6 +1,6 @@
 import 'cypress-file-upload';
 
-Cypress.Commands.add("CargarDocumento", (fileName, tipo) => {
+Cypress.Commands.add("CargarDocumento", (fileName, tipo, cantidad_correcta) => {
     cy.get('object').iframeLoaded().its('document').getInDocument('div.panel panel-primary').then(() => {
         cy.fixture(fileName).then(fileContent => {
             cy.wait(2000)
@@ -9,7 +9,7 @@ Cypress.Commands.add("CargarDocumento", (fileName, tipo) => {
                 .trigger("input", {force: true})
                 .wait(1000)
         });
-        cy.verificarImporte(fileName);
+        cy.verificarImporte(fileName, cantidad_correcta);
     });
 })
 

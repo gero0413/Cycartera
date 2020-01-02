@@ -4,9 +4,14 @@ describe("test", function() {
         pausaVD();
         cy.wait(9000);
         despausarVD();
-        // verificaPausa("Activo");
+        verificaPausa("Activo");
     })
 })
+
+let  mem  =   [];
+let fecha = new Date();
+let hoy = fecha.getFullYear() + '-' + (fecha.getMonth() + 1) + '-' + fecha.getDate();
+let mPausa = "Break";
 
 function loginVD() {
     cy.visit("http://10.181.3.171/");
@@ -51,7 +56,7 @@ function despausarVD() {
 
 function verificaPausa(estado) {
     cy.entrar();
-    cy.login("1094947267", "123{enter}");
+    cy.login("51964417", "123{enter}");
 
     // consultar malla
     cy.navbar("Malla de Turnos");

@@ -17,7 +17,7 @@ function agregacampa(crea) {
             cy.get('object').iframeLoaded().its('document').getInDocument("select[name=actualizar]").select("NO")
             cy.get('object').iframeLoaded().its('document').getInDocument("select[name=cod_area_interna]").select("Servicio al cliente")
             cy.seleccionaCanal("Manual");
-            cy.get('object').iframeLoaded().its('document').getInDocument("select[name=cod_usuarios]").select("Administrador Pqr 3")
+            cy.get('object').iframeLoaded().its('document').getInDocument("select[name=cod_usuarios]").select("ADMINISTRADOR GERALDINE")
             cy.get('object').iframeLoaded().its('document').getInDocument("textarea[name=observacion]").type("Test geral campo observaciones")
             cy.get('object').iframeLoaded().its('document').getInDocument("button[type=submit]").click()
 

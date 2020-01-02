@@ -21,7 +21,7 @@ function consultaMalla() {
     cy.navbar("Malla de Turnos");
     cy.frameFecha("object", "input[name=fecha_inicio]", hoy);
     cy.frameFecha("object", "input[name=fecha_fin]", hoy);
-    cy.frameSelect("object", "select[name=cod_area]", "Crédito");
+    cy.frameSelect("object", "select[name=cod_area]", "Servicio al cliente");
     cy.get("object").iframeLoaded().its("document").getInDocument("button", { timeout: 10000 }).first().click();
 }
 

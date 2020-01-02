@@ -35,9 +35,8 @@ Cypress.Commands.add("frameSelect", (frame, element, select) => {
         .select(select)
 })
 
-Cypress.Commands.add("verificaLugarPausa", function(area) {
-    cy.navbar("Configuracion");
-    cy.get('object').iframeLoaded().its('document').getInDocument("a").eq(1).click();
+Cypress.Commands.add("verificaLugarPausa", function (area) {
+    cy.navbar("Áreas");
     cy.then(() => {
         cy.wait(2000)
         let indice = "";
@@ -45,36 +44,38 @@ Cypress.Commands.add("verificaLugarPausa", function(area) {
             indice = 1;
         }
         if (area == "Servicio al cliente") {
-            indice = 2;
+            indice = 5;
         }
         if (area == "Despachos") {
             indice = 3;
         }
         if (area == "Crédito") {
-            indice = 4;
+            indice = 2;
         }
         if (area == "Otros ingresos") {
-            indice = 5;
+            indice = 4;
         }
-
-        cy.get('object').iframeLoaded().its('document').getInDocument("#tablas-parametrizables > tbody > tr:nth-child(" + indice + ") > td.sorting_1 > button").click();
-        cy.get('object').iframeLoaded().its('document').getInDocument('div#dialog-edita').then(()  =>  { 
-            cy.wait(2000)   
-            cy.get('object').iframeLoaded().its('document').getInDocument("#vicidial").invoke("val").then((valor)  =>  {     
+        if (area == "Telemercadeo") {
+            indice = 6;
+        }
+        cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-areas tbody tr:nth-child(" + indice + ") a").click();
+        cy.get('object').iframeLoaded().its('document').getInDocument('div#dialog-edita').then(() => {
+            cy.wait(2000)
+            cy.get('object').iframeLoaded().its('document').getInDocument("select[name=vicidial]").invoke("val").then((valor) => {
                 return valor;
             })
         })
     })
 })
 
-Cypress.Commands.add("verificaPerfil", function(usuario) {
+Cypress.Commands.add("verificaPerfil", function (usuario) {
     cy.navbar("Usuario");
     cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-usuarios_wrapper").then(() => {
         cy.wait(2000)
         cy.get('object').iframeLoaded().its('document').getInDocument("input.input-sm").type(usuario);
         cy.get('object').iframeLoaded().its('document').getInDocument("a.editar").click();
         cy.wait(2000)
-        cy.get('object').iframeLoaded().its('document').getInDocument("#perfil").invoke("val").then((cod_perfil)  =>  {
+        cy.get('object').iframeLoaded().its('document').getInDocument("#perfil").invoke("val").then((cod_perfil) => {
             return cod_perfil;
         })
     })

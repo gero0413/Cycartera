@@ -4,9 +4,10 @@ describe("test", function() {
     it("prueba", function() {
         cy.entrar();
         cy.login("adminpqr3", "123{enter}");
-        cy.verificaLugarPausa("Crédito").then((flag) => {
+        cy.verificaLugarPausa("Servicio al cliente").then((flag) => {
             flag == 1 ? vPausasVd() : vPausasCrm();
         });
+        // vPausasCrm();
     })
 })
 
@@ -22,7 +23,7 @@ function vPausasVd() {
 
     cy.login("51964417", "123{enter}");
     cy.navbar("Pausas")
-    cy.get('object').iframeLoaded().its('document').getInDocument(".row").should("contain", "Las pausas de este usuario se getionan directamente en Vicidial")
+    cy.get('object').iframeLoaded().its('document').getInDocument(".row").should("contain", "Las pausas de este usuario se gestionan directamente en Vicidial")
     cy.wait(2000)
     cy.get('a').contains("Salir").click();
     cy.wait(2000)
@@ -30,7 +31,8 @@ function vPausasVd() {
 }
 
 function vPausasCrm() {
-    cy.get('a').contains("Salir").click();
+    cy.wait(2000);
+    cy.navbar("Salir")
     cy.wait(2000)
     cy.get(".confirm").click();
 
@@ -50,14 +52,14 @@ function pausar() {
     cy.frameSelect("object", "select[name=cod_motivo_pausa]", mPausa);
     cy.get('object').iframeLoaded().its('document').getInDocument('button').click();
     cy.log("aqui empieza la pausa")
-    verificarDatosPausa();
+    // verificarDatosPausa();
 }
 
 function consultaMalla() {
     cy.navbar("Malla de Turnos");
     cy.frameFecha("object", "input[name=fecha_inicio]", hoy);
     cy.frameFecha("object", "input[name=fecha_fin]", hoy);
-    cy.frameSelect("object", "select[name=cod_area]", "Crédito");
+    cy.frameSelect("object", "select[name=cod_area]", "Servicio al cliente");
     cy.get("object").iframeLoaded().its("document").getInDocument("button", { timeout: 10000 }).click();
 }
 
@@ -74,7 +76,7 @@ function despausar() {
     //Despausar
     cy.get("object").iframeLoaded().its("document").getInDocument("button").click();
     cy.log("aqui termina la pausa")
-    verificarDatosPausa();
+    // verificarDatosPausa();
 
     //Consultar malla
     consultaMalla();
