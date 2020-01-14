@@ -13,12 +13,11 @@ let campana = "Test Geral Manual";
 let gestion = "SIN GESTION";
 let indicativo = 1;
 
-
 function ingresa() {
     cy.entrar();
     cy.login("1094785632", "123{enter}");
     cy.navbar("Principal");
-    cy.visit("http://10.181.3.183:8085/cmpqr_cartera/revisa.php?rand=804324054&modulo=3")
+    // cy.visit("http://10.181.3.183:8085/cmpqr_cartera/revisa.php?rand=804324054&modulo=3")
 
     cy.contains(campana).click();
     cy.contains(gestion).click();

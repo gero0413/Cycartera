@@ -2,11 +2,9 @@ describe("Diligenciar solicitud", function() {
 
     it("Diligenciar", function() {
         ingresa();
-
-        // asignar();
-        // agregaAsesor();
+		agregaAsesor();
+        // asignar();    
         // reasignar();
-
     })
 })
 

@@ -9,8 +9,8 @@ describe("test", function() {
     })
 })
 
-let fecha_inicio = "02-01-2020";
-let fecha_fin = "02-01-2020";
+let fecha_inicio = "14-01-2020";
+let fecha_fin = "14-01-2020";
 
 let hora_inicio = "08:00";
 let hora_fin = "20:00";
