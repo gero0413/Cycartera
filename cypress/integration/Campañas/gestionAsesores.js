@@ -15,6 +15,7 @@ function agregaAsesor(agregar) {
         })
 
         cy.then(() => {
+			cy.wait(2000)
             cy.get('object').iframeLoaded().its('document').getInDocument("button#nueva-asignacion").should('be.visible')
             cy.get('object').iframeLoaded().its('document').getInDocument("button#asignar-clientes").should('be.visible')
             cy.get('object').iframeLoaded().its('document').getInDocument("button#reasignar-clientes").should('be.visible')

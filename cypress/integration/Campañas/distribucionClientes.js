@@ -3,13 +3,13 @@ import { agregaAsesor, editaAsesor, eliminaAsesor } from './gestionAsesores';
 describe("Distribución clientes", function() {
     it("Gestionar asignación y asesores", function() {
         ingresa();
-        verificaDatos()
-
-        agregaAsesor(1);
+        verificaDatos();
+		
+        agregaAsesor();
         editaAsesor();
         eliminaAsesor();
 
-        asignar(1);
+        asignar();
         reasignar();
     })
 })
@@ -41,29 +41,32 @@ function ingresa() {
 function verificaDatos(verificarDatos) {
     if(verificarDatos == 1){
         // Datos de la campaña
-        cy.get('object').iframeLoaded().its('document').getInDocument("div.text-center").should("contain", campana)
-        cy.get('object').iframeLoaded().its('document').getInDocument("div.text-center").should("contain", cantidad_clientes)
+		cy.then(()=>{
+			cy.wait(2000)
+			cy.get('object').iframeLoaded().its('document').getInDocument("div.text-center h3 small").should("contain", campana)
+			cy.get('object').iframeLoaded().its('document').getInDocument("div.text-center").should("contain", cantidad_clientes)
 
-        //Campos de la tabla
-        cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-asesores").should("contain", "Asesor")
-        cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-asesores").should("contain", "N° Horas")
-        cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-asesores").should("contain", "N° Días")
-        cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-asesores").should("contain", "N° Clientes")
-        cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-asesores").should("contain", "Acción")
+			//Campos de la tabla
+			cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-asesores").should("contain", "Asesor")
+			cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-asesores").should("contain", "N° Horas")
+			cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-asesores").should("contain", "N° Días")
+			cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-asesores").should("contain", "N° Clientes")
+			cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-asesores").should("contain", "Acción")
 
-        // Datos de los asesores
-        cy.wait(2000)
-        cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-asesores > tbody > tr > td").then(($td) => {
-            if ($td.hasClass('dataTables_empty')) {
-                cy.get('object').iframeLoaded().its('document').getInDocument("button#nueva-asignacion").should('be.visible')
-                cy.get('object').iframeLoaded().its('document').getInDocument("button#asignar-clientes").should('not.be.visible')
-                cy.get('object').iframeLoaded().its('document').getInDocument("button#reasignar-clientes").should('not.be.visible')
-            } else {
-                cy.get('object').iframeLoaded().its('document').getInDocument("button#nueva-asignacion").should('be.visible')
-                cy.get('object').iframeLoaded().its('document').getInDocument("button#asignar-clientes").should('be.visible')
-                cy.get('object').iframeLoaded().its('document').getInDocument("button#reasignar-clientes").should('be.visible')
-            }
-        })
+			// Datos de los asesores
+			cy.wait(2000)
+			cy.get('object').iframeLoaded().its('document').getInDocument("#tabla-asesores > tbody > tr > td").then(($td) => {
+				if ($td.hasClass('dataTables_empty')) {
+					cy.get('object').iframeLoaded().its('document').getInDocument("button#nueva-asignacion").should('be.visible')
+					cy.get('object').iframeLoaded().its('document').getInDocument("button#asignar-clientes").should('not.be.visible')
+					cy.get('object').iframeLoaded().its('document').getInDocument("button#reasignar-clientes").should('not.be.visible')
+				} else {
+					cy.get('object').iframeLoaded().its('document').getInDocument("button#nueva-asignacion").should('be.visible')
+					cy.get('object').iframeLoaded().its('document').getInDocument("button#asignar-clientes").should('be.visible')
+					cy.get('object').iframeLoaded().its('document').getInDocument("button#reasignar-clientes").should('be.visible')
+				}
+			})
+		})
     }
 }
 
